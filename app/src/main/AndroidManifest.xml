@@ -15,8 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.DairyApp_Multi_Module_Udemy">
+            android:theme="@style/Theme.DairyApp_Multi_Module_Udemy.MySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
