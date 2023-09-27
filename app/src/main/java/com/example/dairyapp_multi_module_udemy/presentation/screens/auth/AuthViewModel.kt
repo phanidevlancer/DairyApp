@@ -19,12 +19,11 @@ class AuthViewModel : ViewModel() {
         private set
 
     fun setLoading(loading: Boolean) {
-        println("I am tring to update state : " + loading)
         loadingState.value = loading
     }
 
     fun signInWithMongoAtlas(
-        tokenId: String, onSuccess: (Boolean) -> Unit, onFailure: (Exception) -> Unit
+        tokenId: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit
     ) {
         viewModelScope.launch {
             try {
@@ -37,9 +36,13 @@ class AuthViewModel : ViewModel() {
                         .loggedIn
                 }
                 withContext(Dispatchers.Main) {
-                    onSuccess(result)
-                    delay(600)
-                    authenticated.value = true
+                    if (result) {
+                        onSuccess()
+                        delay(600)
+                        authenticated.value = true
+                    } else {
+                        onFailure(Exception("Login was not successful!"))
+                    }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

@@ -1,10 +1,15 @@
 package com.example.dairyapp_multi_module_udemy.presentation.screens.auth
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.dairyapp_multi_module_udemy.utils.Constants.GOOGLE_CLIENT_ID
 import com.stevdzasan.messagebar.ContentWithMessageBar
@@ -26,11 +31,16 @@ fun AuthenticationScreen(
     navigateToHome: () -> Unit
 ) {
     val context = LocalContext.current
-    Scaffold(content = {
-        ContentWithMessageBar(messageBarState = messageBarState) {
-            AuthenticationContent(loadingState, onButtonClick)
-        }
-    })
+    Scaffold(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .statusBarsPadding()
+            .navigationBarsPadding(),
+        content = {
+            ContentWithMessageBar(messageBarState = messageBarState) {
+                AuthenticationContent(loadingState, onButtonClick)
+            }
+        })
 
     OneTapSignInWithGoogle(state = oneTapState,
         clientId = GOOGLE_CLIENT_ID,
