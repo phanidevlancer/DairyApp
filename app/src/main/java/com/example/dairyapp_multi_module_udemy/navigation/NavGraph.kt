@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.dairyapp_multi_module_udemy.presentation.screens.auth.AuthViewModel
 import com.example.dairyapp_multi_module_udemy.presentation.screens.auth.AuthenticationScreen
+import com.example.dairyapp_multi_module_udemy.presentation.screens.home.HomeScreen
 import com.example.dairyapp_multi_module_udemy.utils.Constants.MONGO_APP_ID
 import com.example.dairyapp_multi_module_udemy.utils.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.stevdzasan.messagebar.rememberMessageBarState
@@ -82,19 +83,7 @@ fun NavGraphBuilder.authenticationRoute(navigateToHome: () -> Unit) {
 
 fun NavGraphBuilder.homeRoute() {
     composable(Screen.Home.route) {
-        val scope = rememberCoroutineScope()
-        Column(
-            Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = {
-                scope.launch { App.create(MONGO_APP_ID).currentUser?.logOut() }
-            }) {
-                Text(text = "Logout")
-            }
-
-        }
+        HomeScreen()
     }
 }
 
