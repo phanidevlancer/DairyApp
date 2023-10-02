@@ -20,7 +20,7 @@ fun HomeTopBar(onMenuClicked: () -> Unit) {
             Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu Icon")
         }
     }, actions = {
-        IconButton(onClick = onMenuClicked) {
+        IconButton(onClick = {}) {
             Icon(
                 imageVector = Icons.Default.DateRange,
                 contentDescription = "Date Range Icon",
