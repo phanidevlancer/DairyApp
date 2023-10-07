@@ -1,11 +1,18 @@
 package com.example.dairyapp_multi_module_udemy.presentation.components
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -44,14 +54,18 @@ import java.util.Locale
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
-fun DairyHolder(dairy: Dairy, onClick: (String) -> Unit) {
+fun DairyHolder(diary: Dairy, onClick: (String) -> Unit) {
+    val context = LocalContext.current
     val localDensity = LocalDensity.current
     var componentHeight by remember { mutableStateOf(0.dp) }
+    var galleryOpened by remember { mutableStateOf(false) }
+    var galleryLoading by remember { mutableStateOf(false) }
+    val downloadedImages = remember { mutableStateListOf<Uri>() }
 
     Row(modifier = Modifier.clickable(
         indication = null,
         interactionSource = MutableInteractionSource()
-    ) { onClick(dairy._id.toString()) }) {
+    ) { onClick(diary._id.toString()) }) {
         Spacer(modifier = Modifier.width(14.dp))
         Surface(
             modifier = Modifier
@@ -70,15 +84,58 @@ fun DairyHolder(dairy: Dairy, onClick: (String) -> Unit) {
                 },
             tonalElevation = Elevation.Level5
         ) {
-            DiaryHeader(moodName = dairy.mood, time = dairy.date.toInstant())
-            Text(
-                modifier = Modifier.padding(all = 14.dp),
-                text = dairy.description,
-                style = TextStyle(fontSize = MaterialTheme.typography.bodyLarge.fontSize),
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                DiaryHeader(moodName = diary.mood, time = diary.date.toInstant())
+                Text(
+                    modifier = Modifier.padding(all = 14.dp),
+                    text = diary.description,
+                    style = TextStyle(fontSize = MaterialTheme.typography.bodyLarge.fontSize),
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                if (diary.images.isNotEmpty()) {
+                    ShowGalleryButton(
+                        galleryOpened = galleryOpened,
+                        galleryLoading = galleryLoading,
+                        onClick = {
+                            galleryOpened = !galleryOpened
+                        }
+                    )
+                }
+
+                AnimatedVisibility(
+                    visible = galleryOpened && !galleryLoading,
+                    enter = fadeIn() + expandVertically(
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessLow
+                        )
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(all = 14.dp)) {
+                        Gallery(images = downloadedImages)
+                    }
+                }
+            }
+
         }
+    }
+}
+
+@Composable
+fun ShowGalleryButton(
+    galleryOpened: Boolean,
+    galleryLoading: Boolean,
+    onClick: () -> Unit
+) {
+    TextButton(onClick = onClick) {
+        Text(
+            text = if (galleryOpened)
+                if (galleryLoading) "Loading" else "Hide Gallery"
+            else "Show Gallery",
+            style = TextStyle(fontSize = MaterialTheme.typography.bodySmall.fontSize)
+        )
     }
 }
 
@@ -121,7 +178,7 @@ fun DiaryHeader(moodName: String, time: Instant) {
 @Composable
 @Preview
 fun ShowDairyHolder() {
-    DairyHolder(dairy = Dairy().apply {
+    DairyHolder(diary = Dairy().apply {
         title = "My Diary"
         description =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
