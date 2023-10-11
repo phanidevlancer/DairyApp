@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "43743516128",
+    "project_id": "mydiaryappudemy",
+    "storage_bucket": "mydiaryappudemy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43743516128:android:bc4e2da0fc671ae4f5c785",
+        "android_client_info": {
+          "package_name": "com.example.dairyapp_multi_module_udemy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43743516128-dbc5kpuqee0lh0v29tivn3pu58ncqsh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2U1V59uBt1mntlZSHqoNAtiYytM8A08g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43743516128-dbc5kpuqee0lh0v29tivn3pu58ncqsh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
