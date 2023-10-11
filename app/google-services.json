@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "43743516128-17hjdibq1d9dt2uc3ujdehjcb642pj7j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dairyapp_multi_module_udemy",
+            "certificate_hash": "ddfa21807228e8f1d8e91d163f0c5cd7981a0026"
+          }
+        },
+        {
+          "client_id": "43743516128-hpi4oh0n64oopnca9lhmklv3rme7srie.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dairyapp_multi_module_udemy",
+            "certificate_hash": "1a594a62c9e8caba5412b544dc322793be576dad"
+          }
+        },
+        {
           "client_id": "43743516128-dbc5kpuqee0lh0v29tivn3pu58ncqsh2.apps.googleusercontent.com",
           "client_type": 3
         }
